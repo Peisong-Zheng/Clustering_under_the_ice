@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-def plot_data_location(ds):
-    fig, ax = plt.subplots(1, 1, figsize=(5, 5), dpi=100, subplot_kw={'projection':ccrs.AzimuthalEquidistant(central_latitude=90)})
+def plot_data_location(ds,dpi=200):
+    fig, ax = plt.subplots(1, 1, figsize=(5, 5), dpi=dpi, subplot_kw={'projection':ccrs.AzimuthalEquidistant(central_latitude=90)})
 
     ax.add_feature(cfeature.COASTLINE.with_scale('10m'),linewidth=0.5)
     ax.add_feature(cfeature.LAND.with_scale('10m'))
@@ -14,7 +14,7 @@ def plot_data_location(ds):
     gl.left_labels = True
     gl.bottom_labels = True
 
-    ax.scatter(ds['lon'].values, ds['lat'].values, c='r', transform=ccrs.PlateCarree(), zorder=4)
+    ax.scatter(ds['lon'].values, ds['lat'].values, c='r', transform=ccrs.PlateCarree(), zorder=4, s=0.5)
     plt.show()
     
 
