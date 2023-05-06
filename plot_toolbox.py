@@ -29,12 +29,12 @@ def plot_pred_map(ds, m):
 
     ax.add_feature(cfeature.LAND)
     ax.add_feature(cfeature.COASTLINE)
-    ax.set_title('LABELS of the training set')
+    #ax.set_title('LABELS of the training set')
     plt.show()
     
 
 def plot_quantile(ds_group):
-    fig, axs = plt.subplots(1, 3, figsize=(12, 12),dpi=200)
+    fig, axs = plt.subplots(1, 3, figsize=(12, 12),dpi=300)
 
     for i in range(3):
         qua5=ds_group[0]['temperature_Q'][i][0].values
@@ -46,7 +46,7 @@ def plot_quantile(ds_group):
         ax.plot(qua95,ds_group[0]['pressure'].values,c='g',label=0.95)
         ax.grid(True)
         ax.legend()
-        ax.set_title(f'Component {i+1}')
+        ax.set_title(f'Class {i+1}')
         ax.set_ylabel('Pressure')
         ax.set_xlabel('Temperature')
 
