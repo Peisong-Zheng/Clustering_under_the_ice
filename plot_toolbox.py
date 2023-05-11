@@ -18,7 +18,7 @@ def plot_data_location(ds,dpi=200):
     plt.show()
     
 
-def plot_pred_map(ds, m):
+def plot_pred_map(ds, m,show_title=False):
     proj = ccrs.NorthPolarStereo()
     subplot_kw={'projection': proj}
     fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(5,5), dpi=120, facecolor='w', edgecolor='k', subplot_kw=subplot_kw)
@@ -29,7 +29,10 @@ def plot_pred_map(ds, m):
 
     ax.add_feature(cfeature.LAND)
     ax.add_feature(cfeature.COASTLINE)
-    #ax.set_title('LABELS of the training set')
+
+    if show_title:
+        ax.set_title(f'lat_step=ds.lat_step.values, lon_step=ds.lon_step.values, T=ds.quantile.values')
+
     plt.show()
     
 
