@@ -394,8 +394,6 @@ def latlon_bining_ana(ds):
     
     plt.show()
 
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
 
 # make a pipeline to prepare the training data
 def prepare_training_data(lat_step,lon_step,quantile4T,ds_cleaned):
