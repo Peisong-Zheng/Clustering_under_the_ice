@@ -404,3 +404,92 @@ def plot_san_temp_profiles(ds):
 
 
     plt.show()
+
+##################################################################################
+def mean_profiles_comparision(ds0,ds1,ds2,variable='temperature',class2compare=0):
+    fig, axs = plt.subplots(1, 3, figsize=(9, 5 ), dpi=300)
+    
+    for i in range(3):
+        if i==0:
+            ds_class = ds0.where(ds0.PCM_LABELS == class2compare, drop=True)
+        if i==1:
+            ds_class = ds1.where(ds1.PCM_LABELS == class2compare, drop=True)
+        if i==2:
+            ds_class = ds2.where(ds2.PCM_LABELS == class2compare, drop=True)
+
+        ax=axs[i]
+        qua5 = np.quantile(ds_class[variable], 0.05, axis=0)
+        qua95 = np.quantile(ds_class[variable], 0.95, axis=0)
+        qua50 = np.quantile(ds_class[variable], 0.50, axis=0)
+
+        ax.plot(qua5, ds_class['pressure'].values, c='b', label=0.05)
+        ax.plot(qua50, ds_class['pressure'].values, c='r', label=0.50)
+        ax.plot(qua95, ds_class['pressure'].values, c='g', label=0.95)
+        ax.grid(True)
+        ax.legend()
+        ax.set_title(f'Class {class2compare}')
+
+        ax.set_ylabel('Pressure')
+        ax.set_xlabel(variable)
+
+    plt.subplots_adjust(wspace=0.5, hspace=0.25)
+    plt.show()  
+
+##################################################################################
+
+# compare the likelihood of each class
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+
+def likelihood_comparision(ds0,ds1,ds2,class2compare=0):
+
+    lon_min, lon_max = -180, 180
+    lat_min, lat_max = 70, 90
+    lat_step = 10
+    lon_step = 20
+
+    fig, axs = plt.subplots(1, 3, figsize=(24, 8 ), dpi=300)
+
+    for i in range(3):
+        ax=axs[i]
+        m = Basemap(projection='npstere', boundinglat=lat_min, lon_0=0, resolution='l', ax=ax)
+
+        if i==0:
+            pcm_post = ds0.PCM_POST.values[class2compare, :]
+            x, y = m(ds0['lon'], ds0['lat'])
+        if i==1:
+            pcm_post = ds1.PCM_POST.values[class2compare, :]
+            x, y = m(ds1['lon'], ds1['lat'])
+        if i==2:
+            pcm_post = ds2.PCM_POST.values[class2compare, :]
+            x, y = m(ds2['lon'], ds2['lat'])
+ 
+        
+        m.drawparallels(np.arange(lat_min, lat_max + 1, lat_step), labels=[], linewidth=0.1)
+        m.drawcoastlines()
+        m.fillcontinents(color='grey', lake_color='lightblue')
+        m.drawmeridians(np.arange(lon_min, lon_max + 1, lon_step), labels=[1, 0, 0, 1], linewidth=0.1)
+
+       
+        pcm_post[pcm_post < 0.4] = 0.05
+
+        sc = m.scatter(x, y, s=3, c=np.array([pcm_post]), cmap='Blues', vmin=0, vmax=np.max(pcm_post))
+        # plot the pcm_post larger than 0.5
+        m.scatter(x[pcm_post > 0.5], y[pcm_post > 0.5], s=3, c=np.array([pcm_post[pcm_post > 0.5]]), cmap='Blues', vmin=0, vmax=np.max(pcm_post))
+
+        cbar = plt.colorbar(sc, ax=ax, shrink=0.7, pad=0.02)
+        cbar.ax.set_ylabel('likelihood')
+        # add a title and set the font size
+        ax.set_title(f'Likelihood of class {class2compare}', fontsize=12)
+
+        for lat in np.arange(lat_min, lat_max + 1, lat_step):
+            if lat < 80:
+                x, y = m(0, lat+1)
+            else:
+                x, y = m(0, lat)
+                
+            ax.text(x, y, f'{lat}°N', fontsize=8, ha='center', va='center', color='k',
+                    bbox=dict(facecolor='w', edgecolor='None', alpha=1))
+
+    plt.show()
