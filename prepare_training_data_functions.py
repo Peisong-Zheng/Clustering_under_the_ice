@@ -192,29 +192,3 @@ def ramdon_sample_by_month(
 
     return ds_selected
 
-
-
-# ########################################################################################################################
-# import xarray as xr
-
-# def add_info(
-#     ds_train: xr.Dataset,
-#     ds_fit: xr.Dataset
-# ) -> xr.Dataset:
-#     """
-#     Add additional information from the training dataset to the fit dataset.
-
-#     Args:
-#         ds_train (xr.Dataset): The training dataset.
-#         ds_fit (xr.Dataset): The fit dataset.
-
-#     Returns:
-#         xr.Dataset: The fit dataset with additional information added.
-#     """
-#     ds_fit['lat_step'] = ds_train['lat_step']
-#     ds_fit['lon_step'] = ds_train['lon_step']
-#     ds_fit['quantile4T'] = ds_train['quantile4T']
-#     ds_fit['nprof_of_train'] = ds_train.nprof.size
-    
-#     return ds_fit
-
