@@ -70,7 +70,7 @@ def compare_labels(ds0, ds1, ds2, show_title=False):
     lon_step = 20
 
     # Define your own color list
-    color_list = ['red', 'saddlebrown', 'deepskyblue', 'purple','black','darkorange','forestgreen'] 
+    color_list = ['red', 'saddlebrown', 'deepskyblue', 'purple','black','darkorange','forestgreen']
     cmap = ListedColormap(color_list)
 
     for i in range(3):
@@ -103,7 +103,8 @@ def compare_labels(ds0, ds1, ds2, show_title=False):
 
         # Add a title and set the font size
         if show_title:
-            ax.set_title(f'lat_step={ds.lat_step.values}, lon_step={ds.lon_step.values}, quantile4T={ds.quantile4T.values},nprof_of_train={ds.nprof_of_train.values}')
+            # ax.set_title(f'lat_step={ds.lat_step.values}, lon_step={ds.lon_step.values}, quantile4T={ds.quantile4T.values},nprof_of_train={ds.nprof_of_train.values}')
+            ax.set_title(f'lat_step={ds.lat_step.values}, lon_step={ds.lon_step.values},nprof_of_training={ds.nprof_of_train.values}')
 
         for lat in np.arange(lat_min, lat_max + 1, lat_step):
             if lat < 80:

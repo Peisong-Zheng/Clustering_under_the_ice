@@ -123,6 +123,7 @@ def plot_labels(ds, show_title=False)-> None:
 
     # Define your own color list
     color_list = ['red', 'saddlebrown', 'deepskyblue', 'purple','black','darkorange','forestgreen'] 
+    color_list=color_list[:num_labels]
     cmap = ListedColormap(color_list[0:num_labels])
 
     x, y = m(ds['lon'], ds['lat'])
